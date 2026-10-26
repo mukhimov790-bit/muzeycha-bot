@@ -3,312 +3,231 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#173d32">
-<title>Muzeycha — Цифровой музей</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Музейча — Виртуальный музей</title>
 <style>
-:root{--green:#173d32;--gold:#d8b56d;--bg:#f5f3ed}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#24271f}
-header{background:var(--green);color:white;padding:18px}
-nav{max-width:1050px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-.logo{font-size:25px;font-weight:bold}
-.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-nav a{color:white;text-decoration:none}
-.lang{display:flex;gap:5px}
-.lang button{padding:9px 12px;background:transparent;border:1px solid #ffffff80;color:white;border-radius:8px}
-.lang button.active{background:var(--gold);color:#222;border-color:var(--gold)}
-.hero{padding:65px 18px;text-align:center;background:linear-gradient(135deg,#173d32,#39735a);color:white}
-.hero h1{font-size:clamp(28px,5vw,43px);margin:0 0 15px}
-.hero p{max-width:650px;margin:0 auto 24px;line-height:1.7}
-button,.upload{border:0;border-radius:9px;padding:12px 16px;background:var(--gold);color:#222;font-weight:bold;cursor:pointer;font-size:14px}
-button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #5898d1;outline-offset:3px}
-main{max-width:1050px;margin:auto;padding:25px 16px 40px}
-h2{margin-top:10px}
-.intro{line-height:1.7;color:#555}
-.tools{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
-input[type=search]{flex:1;min-width:170px;padding:13px;border:1px solid #ccc;border-radius:9px;font-size:15px;background:white}
-.upload{display:inline-flex;align-items:center;justify-content:center}
-#gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 3px 12px #0001;min-width:0}
-.card img{display:block;width:100%;height:195px;object-fit:cover;background:#ddd}
-.card-content{padding:14px}
-.card h3{overflow-wrap:anywhere;margin:0 0 8px}
-.card p{color:#666;font-size:13px;overflow-wrap:anywhere}
-.delete{background:#f4e5e2;color:#8b3025;padding:9px 12px}
-.empty{padding:28px;text-align:center;color:#777;background:white;border-radius:12px;grid-column:1/-1;line-height:1.6}
-.note{font-size:13px;color:#666;line-height:1.6}
-#status{margin:10px 0}
-footer{text-align:center;padding:25px;background:var(--green);color:white}
-@media(max-width:480px){header{padding:14px}.logo{font-size:22px}.navlinks{gap:11px}.hero{padding:48px 16px}.tools>*{width:100%}.upload{min-height:44px}}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f0e7;color:#292b25}
+header{background:#173f35;color:white;padding:24px 16px;text-align:center}
+header h1{margin:0 0 10px;font-size:30px}
+header p{margin:0;color:#e1e9dc}
+nav{display:flex;justify-content:center;gap:8px;margin-top:18px}
+button,.upload{border:0;border-radius:9px;padding:11px 15px;cursor:pointer;font-size:15px}
+nav button{background:#fff;color:#173f35}
+nav button.active{background:#d8b66a}
+main{max-width:1100px;margin:auto;padding:20px 14px}
+.welcome{background:#fff;border-radius:14px;padding:20px;margin-bottom:20px}
+.welcome h2{margin-top:0}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+input[type=search]{flex:1;min-width:180px;padding:13px;border:1px solid #ccc;border-radius:9px;font-size:16px}
+.upload{background:#173f35;color:white;display:inline-block}
+input[type=file]{display:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 3px 12px #00000012}
+.card img{width:100%;height:190px;object-fit:cover;display:block;background:#ddd}
+.info{padding:15px}
+.info h3{margin:0 0 9px}
+.info p{line-height:1.5;color:#555}
+.tag{font-size:12px;background:#e7eadf;padding:5px 8px;border-radius:20px}
+.delete{background:#f5dddd;color:#852b2b;margin-top:8px}
+footer{text-align:center;padding:25px;color:#666}
+#status{margin:12px 0;color:#173f35}
 </style>
 </head>
 <body>
 <header>
+<h1>🏛️ Музейча</h1>
+<p id="subtitle">Открой для себя историю и культуру</p>
 <nav>
-<div class="logo">🏛️ Muzeycha</div>
-<div class="navlinks">
-<a href="#home" data-i18n="home">Главная</a>
-<a href="#gallery-section" data-i18n="gallery">Галерея</a>
-<div class="lang">
-<button id="ruBtn" class="active" type="button" onclick="setLanguage('ru')">Русский</button>
-<button id="kkBtn" type="button" onclick="setLanguage('kk')">Қазақша</button>
-</div>
-</div>
+<button id="ru" class="active" onclick="setLang('ru')">Русский</button>
+<button id="kk" onclick="setLang('kk')">Қазақша</button>
 </nav>
 </header>
 
-<section class="hero" id="home">
-<h1 data-i18n="heroTitle">Откройте историю вместе с нами</h1>
-<p data-i18n="heroText">Muzeycha — мир исторических фотографий, культурного наследия и интересных открытий.</p>
-<button type="button" onclick="document.getElementById('gallery-section').scrollIntoView({behavior:'smooth'})" data-i18n="explore">Посмотреть музей</button>
+<main>
+<section class="welcome">
+<h2 id="welcomeTitle">Добро пожаловать в наш музей!</h2>
+<p id="welcomeText">Изучайте интересные экспонаты, исторические предметы и культурное наследие.</p>
 </section>
 
-<main id="gallery-section">
-<h2 data-i18n="galleryTitle">🖼️ Галерея музея</h2>
-<p class="intro" data-i18n="intro">Добавляйте фотографии и создавайте собственную коллекцию.</p>
-
 <div class="tools">
-<input id="search" type="search" data-i18n-placeholder="searchPlaceholder" placeholder="Поиск по названию..." oninput="render()">
-<label class="upload">
-<span data-i18n="addPhoto">＋ Добавить фото</span>
-<input id="files" type="file" accept="image/*" multiple hidden>
-</label>
+<input id="search" type="search" placeholder="Поиск экспонатов..." oninput="render()">
+<label class="upload" for="photoInput" id="uploadLabel">📷 Добавить фото</label>
+<input id="photoInput" type="file" accept="image/*" multiple>
 </div>
-
-<p class="note" data-i18n="storageNote">Фотографии сохраняются в браузере этого устройства. Они не синхронизируются с другими устройствами.</p>
-<div id="status" class="note" aria-live="polite"></div>
-<div id="gallery"><div class="empty" data-i18n="loading">Загрузка фотографий...</div></div>
+<p id="status"></p>
+<div id="gallery" class="grid"></div>
 </main>
-
-<footer>
-<strong>🏛️ Muzeycha</strong>
-<p data-i18n="footerText">Сохраняем историю и передаём её будущим поколениям.</p>
-</footer>
+<footer id="footer">Музейча · Виртуальный музей</footer>
 
 <script>
 const translations = {
 ru: {
-home:"Главная",
-gallery:"Галерея",
-heroTitle:"Откройте историю вместе с нами",
-heroText:"Muzeycha — мир исторических фотографий, культурного наследия и интересных открытий.",
-explore:"Посмотреть музей",
-galleryTitle:"🖼️ Галерея музея",
-intro:"Добавляйте фотографии и создавайте собственную коллекцию.",
-searchPlaceholder:"Поиск по названию...",
-addPhoto:"＋ Добавить фото",
-storageNote:"Фотографии сохраняются в браузере этого устройства. Они не синхронизируются с другими устройствами.",
-loading:"Загрузка фотографий...",
-empty:"Фотографий пока нет. Нажмите «Добавить фото».",
-description:"Коллекция музея",
-delete:"Удалить",
-confirmDelete:"Удалить эту фотографию?",
-ready:"Muzeycha готов к работе!",
-saving:"Сохраняем фотографии...",
-saved:"Фотографии сохранены.",
-saveError:"Не удалось сохранить фото. Возможно, память устройства заполнена.",
-dbError:"Не удалось открыть хранилище браузера. Попробуйте другой браузер.",
-noResults:"По вашему запросу ничего не найдено.",
-footerText:"Сохраняем историю и передаём её будущим поколениям."
-},
+subtitle:"Открой для себя историю и культуру",
+welcomeTitle:"Добро пожаловать в наш музей!",
+welcomeText:"Изучайте интересные экспонаты, исторические предметы и культурное наследие.",
+search:"Поиск экспонатов...", upload:"📷 Добавить фото",
+empty:"Экспонаты не найдены. Попробуйте другой поиск или добавьте фото.",
+added:"Фото добавлено на этом устройстве.",
+footer:"Музейча · Виртуальный музей",
+items:[
+["Древняя керамика","Керамические сосуды рассказывают о быте и мастерстве древних людей.","Археология"],
+["История Великой степи","Культура и традиции народов Великой степи передавались из поколения в поколение.","История"],
+["Национальные украшения","Украшения отражают традиции, мастерство и художественный вкус народа.","Культура"],
+["Старинные монеты","Монеты помогают изучать торговлю и историю разных эпох.","Нумизматика"],
+["Наследие кочевников","Предметы быта кочевников показывают их образ жизни и изобретательность.","Этнография"],
+["Древние артефакты","Артефакты помогают учёным узнавать больше о жизни людей в прошлом.","Археология"]
+]},
 kk: {
-home:"Басты бет",
-gallery:"Галерея",
-heroTitle:"Тарихты бізбен бірге таныңыз",
-heroText:"Muzeycha — тарихи фотосуреттер, мәдени мұра және қызықты жаңалықтар әлемі.",
-explore:"Музейді көру",
-galleryTitle:"🖼️ Музей галереясы",
-intro:"Фотосуреттер қосып, өз коллекцияңызды жасаңыз.",
-searchPlaceholder:"Атауы бойынша іздеу...",
-addPhoto:"＋ Фото қосу",
-storageNote:"Фотосуреттер осы құрылғының браузерінде сақталады. Олар басқа құрылғылармен синхрондалмайды.",
-loading:"Фотосуреттер жүктелуде...",
-empty:"Әзірге фотосуреттер жоқ. «Фото қосу» түймесін басыңыз.",
-description:"Музей коллекциясы",
-delete:"Жою",
-confirmDelete:"Бұл фотосуретті жоясыз ба?",
-ready:"Muzeycha жұмысқа дайын!",
-saving:"Фотосуреттер сақталуда...",
-saved:"Фотосуреттер сақталды.",
-saveError:"Фото сақталмады. Құрылғы жады толған болуы мүмкін.",
-dbError:"Браузер қоймасын ашу мүмкін болмады. Басқа браузерді қолданып көріңіз.",
-noResults:"Сұрауыңыз бойынша ештеңе табылмады.",
-footerText:"Тарихты сақтап, келер ұрпаққа жеткіземіз."
-}
+subtitle:"Тарих пен мәдениетті таны",
+welcomeTitle:"Музейімізге қош келдіңіз!",
+welcomeText:"Қызықты жәдігерлерді, тарихи бұйымдар мен мәдени мұраны зерттеңіз.",
+search:"Жәдігерлерді іздеу...", upload:"📷 Сурет қосу",
+empty:"Жәдігер табылмады. Басқа сөзбен іздеңіз немесе сурет қосыңыз.",
+added:"Сурет осы құрылғыға қосылды.",
+footer:"Музейча · Виртуалды музей",
+items:[
+["Ежелгі қыш ыдыстар","Қыш ыдыстар ежелгі адамдардың тұрмысы мен шеберлігін танытады.","Археология"],
+["Ұлы дала тарихы","Ұлы дала халықтарының мәдениеті мен дәстүрлері ұрпақтан ұрпаққа жалғасқан.","Тарих"],
+["Ұлттық әшекейлер","Әшекейлер халықтың дәстүрі мен көркемдік талғамын көрсетеді.","Мәдениет"],
+["Ескі тиындар","Тиындар арқылы сауда мен әр дәуірдің тарихын зерттеуге болады.","Нумизматика"],
+["Көшпенділер мұрасы","Көшпенділердің тұрмыстық бұйымдары олардың өмір салтын көрсетеді.","Этнография"],
+["Ежелгі жәдігерлер","Жәдігерлер өткен замандағы адамдардың өмірін тануға көмектеседі.","Археология"]
+]}
 };
 
-let language = "ru";
-let db = null;
-let items = [];
+const pictures = [
+"https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1461360228754-6e81c478b882?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=800&q=80"
+];
 
-function setLanguage(lang) {
- language = lang;
- document.documentElement.lang = lang;
- document.title = lang === "ru"
-  ? "Muzeycha — Цифровой музей"
-  : "Muzeycha — Цифрлық музей";
+let lang = "ru";
+let customItems = [];
+try { customItems = JSON.parse(localStorage.getItem("muzeychaPhotos") || "[]"); }
+catch(e) { customItems = []; }
 
- document.querySelectorAll("[data-i18n]").forEach(el => {
-  const key = el.dataset.i18n;
-  el.textContent = translations[lang][key];
- });
-
- document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
-  el.placeholder = translations[lang][el.dataset.i18nPlaceholder];
- });
-
- document.getElementById("ruBtn").classList.toggle("active",lang==="ru");
- document.getElementById("kkBtn").classList.toggle("active",lang==="kk");
- render();
-}
-
-function openDB() {
- return new Promise((resolve,reject) => {
-  const request = indexedDB.open("MuzeychaGallery",1);
-  request.onupgradeneeded = () => {
-   const database = request.result;
-   if (!database.objectStoreNames.contains("photos")) {
-    database.createObjectStore("photos",{keyPath:"id",autoIncrement:true});
-   }
-  };
-  request.onsuccess = () => { db=request.result; resolve(db); };
-  request.onerror = () => reject(request.error);
- });
-}
-
-function getAll() {
- return new Promise((resolve,reject) => {
-  const tx=db.transaction("photos","readonly");
-  const request=tx.objectStore("photos").getAll();
-  request.onsuccess=()=>resolve(request.result);
-  request.onerror=()=>reject(request.error);
- });
-}
-
-function savePhoto(photo) {
- return new Promise((resolve,reject) => {
-  const tx=db.transaction("photos","readwrite");
-  tx.objectStore("photos").add(photo);
-  tx.oncomplete=resolve;
-  tx.onerror=()=>reject(tx.error);
-  tx.onabort=()=>reject(tx.error);
- });
-}
-
-function deletePhoto(id) {
- return new Promise((resolve,reject) => {
-  const tx=db.transaction("photos","readwrite");
-  tx.objectStore("photos").delete(id);
-  tx.oncomplete=resolve;
-  tx.onerror=()=>reject(tx.error);
- });
+function setLang(language) {
+  lang = language;
+  document.documentElement.lang = language;
+  document.getElementById("ru").classList.toggle("active", language === "ru");
+  document.getElementById("kk").classList.toggle("active", language === "kk");
+  const t = translations[lang];
+  document.getElementById("subtitle").textContent = t.subtitle;
+  document.getElementById("welcomeTitle").textContent = t.welcomeTitle;
+  document.getElementById("welcomeText").textContent = t.welcomeText;
+  document.getElementById("search").placeholder = t.search;
+  document.getElementById("uploadLabel").textContent = t.upload;
+  document.getElementById("footer").textContent = t.footer;
+  render();
 }
 
 function render() {
- const gallery=document.getElementById("gallery");
- const term=document.getElementById("search").value.trim().toLocaleLowerCase();
- gallery.replaceChildren();
+  const t = translations[lang];
+  const term = document.getElementById("search").value.toLowerCase();
+  const gallery = document.getElementById("gallery");
+  gallery.innerHTML = "";
+  let count = 0;
 
- const filtered=items.filter(item=>item.name.toLocaleLowerCase().includes(term));
- if (!filtered.length) {
-  const empty=document.createElement("div");
-  empty.className="empty";
-  empty.textContent=term ? translations[language].noResults : translations[language].empty;
-  gallery.appendChild(empty);
-  return;
- }
+  t.items.forEach((item, i) => {
+    if (!(item.join(" ").toLowerCase().includes(term))) return;
+    const card = document.createElement("article");
+    card.className = "card";
+    const img = document.createElement("img");
+    img.src = pictures[i];
+    img.alt = item[0];
+    img.loading = "lazy";
+    img.onerror = () => { img.style.display = "none"; };
+    const info = document.createElement("div");
+    info.className = "info";
+    info.innerHTML = "<span class='tag'></span><h3></h3><p></p>";
+    info.querySelector(".tag").textContent = item[2];
+    info.querySelector("h3").textContent = item[0];
+    info.querySelector("p").textContent = item[1];
+    card.append(img, info);
+    gallery.append(card);
+    count++;
+  });
 
- filtered.forEach(item=>{
-  const card=document.createElement("article");
-  card.className="card";
+  customItems.forEach((item, i) => {
+    if (!(item.name + " " + item.desc).toLowerCase().includes(term)) return;
+    const card = document.createElement("article");
+    card.className = "card";
+    const img = document.createElement("img");
+    img.src = item.src;
+    img.alt = item.name;
+    const info = document.createElement("div");
+    info.className = "info";
+    const h = document.createElement("h3");
+    h.textContent = item.name;
+    const p = document.createElement("p");
+    p.textContent = item.desc || "";
+    const del = document.createElement("button");
+    del.className = "delete";
+    del.textContent = lang === "ru" ? "Удалить" : "Жою";
+    del.onclick = () => {
+      customItems.splice(i, 1);
+      try { localStorage.setItem("muzeychaPhotos", JSON.stringify(customItems)); }
+      catch(e) {}
+      render();
+    };
+    info.append(h, p, del);
+    card.append(img, info);
+    gallery.append(card);
+    count++;
+  });
 
-  const img=document.createElement("img");
-  img.src=item.data;
-  img.alt=item.name;
-  img.loading="lazy";
-
-  const content=document.createElement("div");
-  content.className="card-content";
-
-  const title=document.createElement("h3");
-  title.textContent=item.name;
-
-  const desc=document.createElement("p");
-  desc.textContent=translations[language].description;
-
-  const del=document.createElement("button");
-  del.type="button";
-  del.className="delete";
-  del.textContent=translations[language].delete;
-  del.onclick=async()=>{
-   if(!confirm(translations[language].confirmDelete)) return;
-   try {
-    await deletePhoto(item.id);
-    items=await getAll();
-    render();
-   } catch(e) {
-    document.getElementById("status").textContent=translations[language].saveError;
-   }
-  };
-
-  content.append(title,desc,del);
-  card.append(img,content);
-  gallery.appendChild(card);
- });
+  if (count === 0) {
+    const msg = document.createElement("p");
+    msg.textContent = t.empty;
+    gallery.append(msg);
+  }
 }
 
-document.getElementById("files").addEventListener("change",async function(){
- const files=Array.from(this.files||[]);
- const status=document.getElementById("status");
- let added=0;
- let failed=false;
+document.getElementById("photoInput").addEventListener("change", async function(e) {
+  const files = Array.from(e.target.files || []);
+  const status = document.getElementById("status");
+  let added = 0;
 
- for(const file of files) {
-  if(!file.type.startsWith("image/")) continue;
-  status.textContent=translations[language].saving;
+  for (const file of files) {
+    if (!file.type.startsWith("image/")) continue;
+    if (file.size > 2 * 1024 * 1024) {
+      status.textContent = lang === "ru"
+        ? "Файл больше 2 МБ. Выберите фото поменьше."
+        : "Файл 2 МБ-тан үлкен. Кішірек сурет таңдаңыз.";
+      continue;
+    }
+    const reader = new FileReader();
+    const data = await new Promise(resolve => {
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(file);
+    });
+    if (!data) continue;
+    customItems.push({
+      name: file.name.replace(/\.[^/.]+$/, ""),
+      desc: lang === "ru" ? "Добавленный экспонат" : "Қосылған жәдігер",
+      src: data
+    });
+    added++;
+  }
 
   try {
-   const data=await new Promise((resolve,reject)=>{
-    const reader=new FileReader();
-    reader.onload=()=>resolve(reader.result);
-    reader.onerror=()=>reject(reader.error);
-    reader.readAsDataURL(file);
-   });
-   await savePhoto({name:file.name,data});
-   added++;
-  } catch(e) {
-   failed=true;
+    localStorage.setItem("muzeychaPhotos", JSON.stringify(customItems));
+    status.textContent = added ? translations[lang].added : status.textContent;
+  } catch(err) {
+    status.textContent = lang === "ru"
+      ? "Не хватило места для сохранения фото. Попробуйте добавить одно небольшое фото."
+      : "Суретті сақтауға орын жетпеді. Бір кішірек суретті қосып көріңіз.";
   }
- }
-
- try {
-  items=await getAll();
   render();
-  status.textContent=failed
-   ? translations[language].saveError
-   : (added ? translations[language].saved : "");
- } catch(e) {
-  status.textContent=translations[language].saveError;
- }
- this.value="";
+  e.target.value = "";
 });
 
-(async()=>{
- try {
-  if(!("indexedDB" in window)) throw new Error("IndexedDB unavailable");
-  await openDB();
-  items=await getAll();
-  render();
-  document.getElementById("status").textContent=translations[language].ready;
- } catch(e) {
-  document.getElementById("gallery").innerHTML="";
-  const msg=document.createElement("div");
-  msg.className="empty";
-  msg.textContent=translations[language].dbError;
-  document.getElementById("gallery").appendChild(msg);
- }
-})();
+setLang("ru");
 </script>
 </body>
 </html>
