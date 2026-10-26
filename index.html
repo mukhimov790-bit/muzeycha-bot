@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muzeycha</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #101018;
+      color: white;
+      text-align: center;
+    }
+    header {
+      padding: 25px 15px;
+      background: #201638;
+    }
+    h1 { color: #d6b4ff; }
+    main { padding: 35px 20px; }
+    p { color: #ccc; line-height: 1.6; }
+    button {
+      background: #8b5cf6;
+      color: white;
+      border: 0;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    #status { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏛️ Muzeycha</h1>
+    <p>O‘z xotiralaringdan muzey yarat!</p>
+  </header>
+
+  <main>
+    <h2>Shaxsiy muzeyingni yarat</h2>
+    <p>
+      Sevimli rasmlaringni yig‘ib,
+      o‘z muzeyingni yarat va boshqalar bilan ulash.
+    </p>
+    <button onclick="showMessage()">
+      Boshlash
+    </button>
+    <p id="status"></p>
+  </main>
+
+  <script>
+    function showMessage() {
+      document.getElementById("status").textContent =
+        "Muzeycha tez orada tayyor bo‘ladi!";
+    }
+  </script>
+</body>
+</html>
